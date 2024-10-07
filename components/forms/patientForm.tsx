@@ -27,6 +27,7 @@ export const PatientForm = () => {
     },
   });
 
+  // ------------------------------- onSubmit ------------------------------------------
   const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
     setIsLoading(true);
 
@@ -90,3 +91,5 @@ export const PatientForm = () => {
     </Form>
   );
 };
+
+export default PatientForm;

@@ -5,6 +5,10 @@ import ReactDatePicker from "react-datepicker";
 import { Control } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
 
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 import { Checkbox } from "./ui/checkbox";
 import {
   FormControl,
@@ -16,6 +20,7 @@ import {
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
+import { Label } from "./ui/label";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -42,6 +47,7 @@ interface CustomProps {
   fieldType: FormFieldType;
 }
 
+//-------------------------- Field
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
   switch (props.fieldType) {
     case FormFieldType.INPUT:
@@ -144,6 +150,21 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       );
     case FormFieldType.SKELETON:
       return props.renderSkeleton ? props.renderSkeleton(field) : null;
+    case FormFieldType.CHECKBOX:
+      return (
+        <FormControl>
+          <div className="flex items-center  gap-4">
+            <Checkbox
+              id={props.name}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+            <Label htmlFor={props.name} className="checkbox-label">
+              {props.label}
+            </Label>
+          </div>
+        </FormControl>
+      );
     default:
       return null;
   }

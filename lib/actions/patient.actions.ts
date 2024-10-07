@@ -15,6 +15,7 @@ import {
 import { parseStringify } from "../utils";
 
 // CREATE APPWRITE USER
+// ------------------------- createUser ---------------------------------------
 export const createUser = async (user: CreateUserParams) => {
   try {
     // Create new user -> https://appwrite.io/docs/references/1.5.x/server-nodejs/users#create
@@ -41,6 +42,7 @@ export const createUser = async (user: CreateUserParams) => {
 };
 
 // GET USER
+// ------------------------- getUser ------------------------------------------
 export const getUser = async (userId: string) => {
   try {
     const user = await users.get(userId);
@@ -55,6 +57,7 @@ export const getUser = async (userId: string) => {
 };
 
 // REGISTER PATIENT
+// ------------------------- registerPatient -----------------------------------
 export const registerPatient = async ({
   identificationDocument,
   ...patient
@@ -79,10 +82,8 @@ export const registerPatient = async ({
       PATIENT_COLLECTION_ID!,
       ID.unique(),
       {
-        identificationDocumentId: file?.$id ? file.$id : null,
-        identificationDocumentUrl: file?.$id
-          ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file.$id}/view??project=${PROJECT_ID}`
-          : null,
+        identificationDocumentId: file?.$id || null,
+        identificationDocumentUrl: `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`,
         ...patient,
       }
     );
@@ -94,6 +95,7 @@ export const registerPatient = async ({
 };
 
 // GET PATIENT
+// ------------------------- getPatient ---------------------------------------
 export const getPatient = async (userId: string) => {
   try {
     const patients = await databases.listDocuments(
