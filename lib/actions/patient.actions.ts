@@ -1,6 +1,6 @@
 "use server";
 
-import { ID, InputFile, Query } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 
 import {
   BUCKET_ID,
@@ -13,6 +13,9 @@ import {
   users,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
+
+import { InputFile } from "node-appwrite";
+import { object } from "zod";
 
 // CREATE APPWRITE USER
 // ------------------------- createUser ---------------------------------------
@@ -77,13 +80,17 @@ export const registerPatient = async ({
     }
 
     // Create new patient document -> https://appwrite.io/docs/references/cloud/server-nodejs/databases#createDocument
+    console.log("Patient Collection ID:", PATIENT_COLLECTION_ID);
+    console.log("XATOOOOO-------->");
     const newPatient = await databases.createDocument(
       DATABASE_ID!,
       PATIENT_COLLECTION_ID!,
       ID.unique(),
       {
-        identificationDocumentId: file?.$id || null,
-        identificationDocumentUrl: `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`,
+        identificationDocumentId: file?.$id ? file.$id : null,
+        identificationDocumentUrl: file?.$id
+          ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file.$id}/view??project=${PROJECT_ID}`
+          : null,
         ...patient,
       }
     );
