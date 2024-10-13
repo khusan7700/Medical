@@ -7,6 +7,8 @@ import { getUser } from "@/lib/actions/patient.actions";
 const Register = async ({ params: { userId } }: SearchParamProps) => {
   const user = await getUser(userId);
 
+  // Sentry.metrics.set("user_view_register", user.name);
+
   return (
     <div className="flex h-screen max-h-screen">
       {/* TODO: OTP Virefication | PassKeyModel */}
@@ -36,4 +38,5 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
     </div>
   );
 };
+
 export default Register;

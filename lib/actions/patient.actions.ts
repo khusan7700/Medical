@@ -1,6 +1,6 @@
 "use server";
 
-import { ID, Query } from "node-appwrite";
+import { ID, InputFile, Query } from "node-appwrite";
 
 import {
   BUCKET_ID,
@@ -14,11 +14,7 @@ import {
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
 
-import { InputFile } from "node-appwrite";
-import { object } from "zod";
-
 // CREATE APPWRITE USER
-// ------------------------- createUser ---------------------------------------
 export const createUser = async (user: CreateUserParams) => {
   try {
     // Create new user -> https://appwrite.io/docs/references/1.5.x/server-nodejs/users#create
@@ -45,7 +41,6 @@ export const createUser = async (user: CreateUserParams) => {
 };
 
 // GET USER
-// ------------------------- getUser ------------------------------------------
 export const getUser = async (userId: string) => {
   try {
     const user = await users.get(userId);
@@ -60,7 +55,6 @@ export const getUser = async (userId: string) => {
 };
 
 // REGISTER PATIENT
-// ------------------------- registerPatient -----------------------------------
 export const registerPatient = async ({
   identificationDocument,
   ...patient
@@ -80,8 +74,6 @@ export const registerPatient = async ({
     }
 
     // Create new patient document -> https://appwrite.io/docs/references/cloud/server-nodejs/databases#createDocument
-    console.log("Patient Collection ID:", PATIENT_COLLECTION_ID);
-    console.log("XATOOOOO-------->");
     const newPatient = await databases.createDocument(
       DATABASE_ID!,
       PATIENT_COLLECTION_ID!,
@@ -102,7 +94,6 @@ export const registerPatient = async ({
 };
 
 // GET PATIENT
-// ------------------------- getPatient ---------------------------------------
 export const getPatient = async (userId: string) => {
   try {
     const patients = await databases.listDocuments(
